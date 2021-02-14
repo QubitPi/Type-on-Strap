@@ -11,9 +11,6 @@
     <!--Favicon-->
     <link rel="shortcut icon" href="{{ site.favicon | relative_url }}" type="image/x-icon">
 
-    <!-- Canonical -->
-    <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
-
     <!-- RSS -->
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ 'feed.xml' | absolute_url }}"/>
     
@@ -29,11 +26,19 @@
     {% endif %}
 
     <!-- KaTeX 0.12.0 -->
-    <!-- if you have any issue check https://github.com/KaTeX/KaTeX -->
     {% if site.katex or site.theme_settings.katex %}
     <script defer src="{{ '/assets/js/vendor/katex.min.js' | relative_url }}"></script>
     <script defer src="{{ '/assets/js/vendor/auto-render.min.js' | relative_url }}" onload="renderMathInElement(document.body);"></script>
     {% endif %}
+
+    <!-- Mermaid 8.8.2 -->
+    {% if site.mermaid %}
+    <!-- <script src=”https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.8.2/mermaid.min.js" onload="mermaid.initialize({startOnLoad:true});"></script> -->
+    <script defer src="{{ '/assets/js/vendor/mermaid.min.js' | relative_url }}" onload="mermaid.initialize({startOnLoad:true});"></script>
+    {% endif %}
+
+    <!-- Simple-Jekyll-Search 1.17.12 -->
+    <script src="{{ '/assets/js/vendor/simple-jekyll-search.min.js' | relative_url }}" type="text/javascript"></script>
 
     <!-- Google Analytics / Cookie Consent -->
     <script>
@@ -56,15 +61,22 @@
 
     <!-- seo tags -->
     <meta property="og:image" content="{{ '/' | absolute_url }}{% if page.thumbnail %}{{ page.thumbnail }}{% else %}{{ page.feature-img | default: site.header_feature_image }}{% endif %}">
+    {% unless page.layout == post %}
+    <meta property="og:type" content="website" />
+    {% endunless %}
     {% seo %}
 
     <!-- RSS -->
     {% feed_meta %}
 
     <!-- Twitter Cards -->
-    <meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.theme_settings.title }}{% endif %}">
-    <meta name="twitter:description" content="{{ page.content | strip_html | strip_newlines | truncate: 160 }}">
-    {% if site.theme_settings.twitter %}<meta name="twitter:creator" content="@{{ site.theme_settings.twitter }}">{% endif %}
+    <meta name="twitter:title" content="{{ page.title | default: site.title }}">
+    <meta name="twitter:description" content="{{ page.content | strip_html | strip_newlines | truncate: 160 | default: site.header_text}}">
+    {% if site.data.social.twitter %}
+    <meta name="twitter:creator" content="@{{ site.data.social.twitter }}">
+    <meta name="twitter:site" content="@{{ site.data.social.twitter }}">
+    {% endif %}
     <meta name="twitter:card" content="{% unless page.thumbnail %}summary{% else %}summary_large_image{% endunless %}">
     <meta name="twitter:image" content="{{ '/' | absolute_url }}{% if page.thumbnail %}{{ page.thumbnail }}{% else %}{{ page.feature-img | default: site.header_feature_image }}{% endif %}">
+    <meta name="twitter:image:alt" content="{{ page.title | default: site.title }}">
 </head>

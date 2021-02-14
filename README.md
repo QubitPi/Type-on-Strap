@@ -14,10 +14,11 @@ A free and open-source [Jekyll](https://jekyllrb.com) theme. Based on Rohan Chan
 * Handle Bootstrap'ed pages: [Get Bootstrap](http://getbootstrap.com/)
 * 🔎 Search feature: [Simple-Jekyll-Search](https://github.com/christian-fei/Simple-Jekyll-Search)
 * Math Rendering : [KateX](https://github.com/Khan/KaTeX)
+* Diagram Rendering: [Mermaid-js](https://github.com/mermaid-js/mermaid)
 * 🖋 Nice fonts: [Font Awesome](https://fontawesome.com/), [Source Sans Pro](https://fonts.google.com/specimen/Source+Sans+Pro), [Pacifico](https://fonts.google.com/specimen/Pacifico?selection.family=Pacifico) 
 * Seo Tags: [Jekyll-seo-tag](https://github.com/jekyll/jekyll-seo-tag)
 * 🛠 Syntax Highlighting: Easily customisable [Base16](https://github.com/chriskempson/base16)
-* Free of rights images from [pexels](https://www.pexels.com/)
+* Find free of rights images on [pexels](https://www.pexels.com/)
 
 > [Demo Site](https://sylhare.github.io/Type-on-Strap/)
 
@@ -118,6 +119,8 @@ description: My blog posts            # Short description, primarily used by sea
 favicon: assets/favicon.ico           # Icon displayed in the tab
 ```
 
+You can also customize the seo tags default option following the jekyll-seo-tag plugin [documentation](http://jekyll.github.io/jekyll-seo-tag/advanced-usage/).
+
 ### Theme customization 🎨
 
 #### Footer and Header's text
@@ -160,7 +163,7 @@ to your project's `_config.yml` file:
 disqus_shortname: my_disqus_shortname
 ```
 
-### Math typesetting
+### Math typesetting with KateX
 
 When KateX is set in `_config.yml`:
 
@@ -183,6 +186,29 @@ For display math typesetting, type your math expression on a *new line*. For exa
 $$
   \bar{y} = {1 \over n} \sum_{i = 1}^{n}y_i
 $$
+```
+
+You can find a cheat sheet of the compatible LaTex symbols [online](https://artofproblemsolving.com/wiki/index.php/LaTeX:Symbols).
+
+### Diagrams with Mermaid
+
+Enable the [mermaid-js](https://github.com/mermaid-js/mermaid) diagram rendering by setting mermaid to true in the `_config.yml`.
+This will load and init the [mermaid.min.js](https://mermaid-js.github.io/mermaid/getting-started/n00b-gettingStarted.html#4-calling-mermaid-from-a-relative-link).
+
+```yml
+mermaid: true # to Enable it
+```
+
+Find all the help you need on the official [mermaid documentation](https://mermaid-js.github.io/mermaid/).
+You can create with ease diagrams. Add your mermaid script inside two mermaid divs (default Kramdown does not yet support mermaid).
+With the `class="mermaid"` inside the `<div>`:
+
+```html
+<div class="mermaid">
+sequenceDiagram
+    Alice->>John: Hello John, how are you?
+    John-->>Alice: Great!
+</div>
 ```
 
 ### Social icons
@@ -237,7 +263,7 @@ layout: post
 title: Hello World                                # Title of the page
 hide_title: true                                  # Hide the title when displaying the post, but shown in lists of posts
 feature-img: "assets/img/sample.png"              # Add a feature-image to the post
-thumbnail: "assets/thumbnails/sample-th.png"      # Add a thumbnail image on blog view
+thumbnail: "assets/img/thumbnails/sample-th.png"  # Add a thumbnail image on blog view
 color: rgb(80,140,22)                             # Add the specified color as feature image, and change link colors in post
 bootstrap: true                                   # Add bootstrap to the page
 tags: [sample, markdown, html]
@@ -487,7 +513,8 @@ formats:
 ```bash
 cd assets/
 gulp default
-gulp thumbnails # to create all of the images thumbnails
+gulp thumbnails-all # to create all of the images thumbnails
+gulp thumbnails     # to create thumbnails for the feature-img/ only
 # tip: run a git status to see the changes
 git status
 ```
